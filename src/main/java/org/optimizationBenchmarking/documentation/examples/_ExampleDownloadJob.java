@@ -18,7 +18,10 @@ import org.optimizationBenchmarking.utils.tools.impl.abstr.ToolJob;
 import org.optimizationBenchmarking.utils.tools.spec.ICallableToolJob;
 import org.optimizationBenchmarking.utils.versioning.Version;
 
-/** The example download job. */
+/**
+ * The example download job will return a path where it installed the
+ * example, or {@code null} if nothing was installed.
+ */
 final class _ExampleDownloadJob extends ToolJob
     implements ICallableToolJob<Path> {
 
@@ -33,6 +36,10 @@ final class _ExampleDownloadJob extends ToolJob
   private final Path m_dest;
   /** the version */
   private final Version m_version;
+  /** the logging level to denote success */
+  private Level m_successLevel;
+  /** the logging level to denote failure */
+  private Level m_failureLevel;
 
   /**
    * create the job
@@ -49,6 +56,10 @@ final class _ExampleDownloadJob extends ToolJob
     this.m_dest = ExampleDownloadJobBuilder
         ._checkDestinationPath(builder.m_dest);
     this.m_version = builder.m_version;
+    ExampleDownloadJobBuilder
+        ._checkSuccessLevel(this.m_successLevel = builder.m_successLevel);
+    ExampleDownloadJobBuilder
+        ._checkFailureLevel(this.m_failureLevel = builder.m_failureLevel);
   }
 
   /** {@inheritDoc} */
@@ -61,6 +72,7 @@ final class _ExampleDownloadJob extends ToolJob
     URL fileListUrl;
     ArrayList<String> list;
     String line;
+    int counter;
 
     logger = this.getLogger();
 
@@ -78,8 +90,7 @@ final class _ExampleDownloadJob extends ToolJob
           name);
     }
 
-    destDirectory = Files.createDirectories(
-        PathUtils.createPathInside(this.m_dest, this.m_id));
+    destDirectory = PathUtils.createPathInside(this.m_dest, this.m_id);
     exampleUri = this.m_baseUri.resolve(this.m_id + '/');
     if ((logger != null) && (logger.isLoggable(Level.FINER))) {
       logger.finer((("The URI of the example is '" + //$NON-NLS-1$
@@ -116,16 +127,34 @@ final class _ExampleDownloadJob extends ToolJob
               + " possible entries, which will now be processed one-by-one.");//$NON-NLS-1$
     }
 
+    counter = 0;
     for (final String string : list) {
-      this.__process(string, exampleUri, destDirectory);
+      if (this.__process(string, exampleUri, destDirectory,
+          (counter <= 0))) {
+        ++counter;
+      }
     }
 
-    if ((logger != null) && (logger.isLoggable(Level.INFO))) {
-      logger.info("Successfully finished downloading and installing " + //$NON-NLS-1$
-          name);
+    if (logger != null) {
+      if (counter > 0) {
+        if (logger.isLoggable(this.m_successLevel)) {
+          logger.log(this.m_successLevel, //
+              "Successfully finished downloading " + //$NON-NLS-1$
+                  counter + " resources and installing " + //$NON-NLS-1$
+                  name);
+        }
+      } else {
+        if (logger.isLoggable(this.m_failureLevel)) {
+          logger.log(this.m_failureLevel, //
+              "No resources for the required version '" + //$NON-NLS-1$
+                  this.m_version + //
+                  "' found, nothing was installed for example " + //$NON-NLS-1$
+                  name);
+        }
+      }
     }
 
-    return destDirectory;
+    return ((counter > 0) ? destDirectory : null);
   }
 
   /**
@@ -137,11 +166,14 @@ final class _ExampleDownloadJob extends ToolJob
    *          the base uri
    * @param destFolder
    *          the destination folder
+   * @param found
+   *          did we already create something?
+   * @return {@code true} if a file was unpacked, {@code false} otherwise
    * @throws Exception
    *           if something goes wrong
    */
-  private final void __process(final String line, final URI baseUri,
-      final Path destFolder) throws Exception {
+  private final boolean __process(final String line, final URI baseUri,
+      final Path destFolder, final boolean found) throws Exception {
     final Logger logger;
     final URL url;
     final Path destPath;
@@ -185,7 +217,7 @@ final class _ExampleDownloadJob extends ToolJob
                 + "' is bigger than the current software version '" + //$NON-NLS-1$
                 this.m_version) + '\'') + '.');
           }
-          return;
+          return false;
         }
       }
 
@@ -199,7 +231,7 @@ final class _ExampleDownloadJob extends ToolJob
                 + "' is smaller than the current software version '" + //$NON-NLS-1$
                 this.m_version) + '\'') + '.');
           }
-          return;
+          return false;
         }
       }
     }
@@ -208,6 +240,10 @@ final class _ExampleDownloadJob extends ToolJob
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
       logger.fine((("Now downloading resource '" + url) + //$NON-NLS-1$
           +'\'') + '.');
+    }
+
+    if (!(found)) {
+      Files.createDirectories(destFolder);
     }
 
     index1 = path.length();
@@ -246,5 +282,7 @@ final class _ExampleDownloadJob extends ToolJob
       logger.fine((("Finished downloading resource '" + url) + //$NON-NLS-1$
           +'\'') + '.');
     }
+
+    return true;
   }
 }

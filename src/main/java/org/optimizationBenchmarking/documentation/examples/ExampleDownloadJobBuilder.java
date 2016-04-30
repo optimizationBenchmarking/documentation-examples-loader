@@ -2,6 +2,7 @@ package org.optimizationBenchmarking.documentation.examples;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.logging.Level;
 
 import org.optimizationBenchmarking.utils.config.Configuration;
 import org.optimizationBenchmarking.utils.io.paths.PathUtils;
@@ -35,10 +36,16 @@ public final class ExampleDownloadJobBuilder extends
   Path m_dest;
   /** the version */
   Version m_version;
+  /** the logging level to denote success */
+  Level m_successLevel;
+  /** the logging level to denote failure */
+  Level m_failureLevel;
 
   /** create the job builder */
   ExampleDownloadJobBuilder() {
     super();
+    this.m_successLevel = Level.INFO;
+    this.m_failureLevel = Level.WARNING;
   }
 
   /** {@inheritDoc} */
@@ -107,6 +114,60 @@ public final class ExampleDownloadJobBuilder extends
               + baseUri + "' is not.");//$NON-NLS-1$
     }
     return use;
+  }
+
+  /**
+   * check the success level.
+   *
+   * @param level
+   *          the level to check
+   */
+  static final void _checkSuccessLevel(final Level level) {
+    if (level == null) {
+      throw new IllegalArgumentException(//
+          "Success log level must not be null."); //$NON-NLS-1$
+    }
+  }
+
+  /**
+   * set the success log level
+   *
+   * @param level
+   *          the new success log level
+   * @return this builder
+   */
+  public final ExampleDownloadJobBuilder setSuccessLevel(
+      final Level level) {
+    ExampleDownloadJobBuilder._checkSuccessLevel(level);
+    this.m_successLevel = level;
+    return this;
+  }
+
+  /**
+   * check the failure level.
+   *
+   * @param level
+   *          the level to check
+   */
+  static final void _checkFailureLevel(final Level level) {
+    if (level == null) {
+      throw new IllegalArgumentException(//
+          "Failure log level must not be null."); //$NON-NLS-1$
+    }
+  }
+
+  /**
+   * set the failure log level
+   *
+   * @param level
+   *          the new failure log level
+   * @return this builder
+   */
+  public final ExampleDownloadJobBuilder setFailureLevel(
+      final Level level) {
+    ExampleDownloadJobBuilder._checkFailureLevel(level);
+    this.m_failureLevel = level;
+    return this;
   }
 
   /**

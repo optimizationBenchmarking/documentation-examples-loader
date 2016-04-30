@@ -1,0 +1,13 @@
+# [documentation-examples-loader](http://www.github.com/optimizationBenchmarking/documentation-examples-loader/)
+
+[<img alt="Travis CI Build Status" src="https://img.shields.io/travis/optimizationBenchmarking/documentation-examples-loader/master.svg" height="20"/>](https://travis-ci.org/optimizationBenchmarking/documentation-examples-loader/)
+[<img alt="Codeship Build Status" src="https://img.shields.io/codeship/7fa56ee0-f0d8-0133-b08b-2640b49afa9e.svg" height="20"/>](https://codeship.com/projects/7fa56ee0-f0d8-0133-b08b-2640b49afa9e/status?branch=master)
+[<img alt="CircleCI Build Status" src="https://img.shields.io/circleci/project/optimizationBenchmarking/documentation-examples-loader.svg" height="20"/>](https://circleci.com/gh/optimizationBenchmarking/documentation-examples-loader)
+[<img alt="Semaphore Build Status" src="https://semaphoreci.com/api/v1/thomasweise/documentation-examples-loader/branches/master/shields_badge.svg" height="20"/>](https://semaphoreci.com/thomasweise/documentation-examples-loader)
+[<img alt="Snap CI Build Status" src="https://img.shields.io/snap-ci/optimizationBenchmarking/documentation-examples-loader/master.svg" height="20"/>](https://snap-ci.com/optimizationBenchmarking/documentation-examples-loader/branch/master)
+[<img alt="Wercker Build Status" src="https://img.shields.io/wercker/ci/572469167ed0b05537068c61.svg" height="20"/>](https://app.wercker.com/#applications/572469167ed0b05537068c61)
+[<img alt="Shippable Build Status" src="https://img.shields.io/shippable/572468a32a8192902e1e852f.svg" height="20"/>](https://app.shippable.com/projects/572468a32a8192902e1e852f)
+[<img alt="AppVeyor Build Status" src="https://img.shields.io/appveyor/ci/thomasWeise/documentation-examples-loader.svg" height="20"/>](https://ci.appveyor.com/project/thomasWeise/documentation-examples-loader)
+[<img alt="Drone IO Build Status" src="https://drone.io/github.com/optimizationBenchmarking/documentation-examples-loader/status.png" height="20"/>](https://drone.io/github.com/optimizationBenchmarking/documentation-examples-loader/latest)
+
+This library provides the methods used to download the examples of the [optimizationBenchmarking](http://www.github.com/optimizationBenchmarking/) tool suite. Details about the licensing of this project and the projects it depends on are given in [LICENSE.md](https://github.com/optimizationBenchmarking/documentation-examples-loader/blob/master/LICENSE.md).

@@ -14,32 +14,23 @@ import java.util.logging.Logger;
 import org.optimizationBenchmarking.utils.io.EArchiveType;
 import org.optimizationBenchmarking.utils.io.paths.PathUtils;
 import org.optimizationBenchmarking.utils.text.TextUtils;
-import org.optimizationBenchmarking.utils.tools.impl.abstr.ToolJob;
-import org.optimizationBenchmarking.utils.tools.spec.ICallableToolJob;
-import org.optimizationBenchmarking.utils.versioning.Version;
 
 /**
  * The example download job will return a path where it installed the
  * example, or {@code null} if nothing was installed.
  */
-final class _ExampleDownloadJob extends ToolJob
-    implements ICallableToolJob<Path> {
+final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
 
   /** the name of the file list */
   private static final String FILE_LIST_NAME = "fileList.txt"; //$NON-NLS-1$
 
-  /** the base uri */
-  private final URI m_baseUri;
+  /** the data folder which needs to be appended to the base url */
+  private static final String DATA_FOLDER = "data/";//$NON-NLS-1$
+
   /** the example's id */
   private final String m_id;
   /** the destination directory */
   private final Path m_dest;
-  /** the version */
-  private final Version m_version;
-  /** the logging level to denote success */
-  private Level m_successLevel;
-  /** the logging level to denote failure */
-  private Level m_failureLevel;
 
   /**
    * create the job
@@ -50,16 +41,9 @@ final class _ExampleDownloadJob extends ToolJob
   _ExampleDownloadJob(final ExampleDownloadJobBuilder builder) {
     super(builder);
 
-    this.m_baseUri = ExampleDownloadJobBuilder
-        ._checkBaseUri(builder.m_baseUri);
     this.m_id = ExampleDownloadJobBuilder._checkExampleId(builder.m_id);
     this.m_dest = ExampleDownloadJobBuilder
         ._checkDestinationPath(builder.m_dest);
-    this.m_version = builder.m_version;
-    ExampleDownloadJobBuilder
-        ._checkSuccessLevel(this.m_successLevel = builder.m_successLevel);
-    ExampleDownloadJobBuilder
-        ._checkFailureLevel(this.m_failureLevel = builder.m_failureLevel);
   }
 
   /** {@inheritDoc} */
@@ -91,7 +75,8 @@ final class _ExampleDownloadJob extends ToolJob
     }
 
     destDirectory = PathUtils.createPathInside(this.m_dest, this.m_id);
-    exampleUri = this.m_baseUri.resolve(this.m_id + '/');
+    exampleUri = this.m_baseUri
+        .resolve(_ExampleDownloadJob.DATA_FOLDER + this.m_id + '/');
     if ((logger != null) && (logger.isLoggable(Level.FINER))) {
       logger.finer((("The URI of the example is '" + //$NON-NLS-1$
           exampleUri) + '\'') + '.');
@@ -178,64 +163,16 @@ final class _ExampleDownloadJob extends ToolJob
     final URL url;
     final Path destPath;
     final boolean zip;
-    Version version;
-    String minVersionString, maxVersionString, path;
-    int index1, index2;
+    String path;
+    int index;
     char ch;
 
-    index1 = line.indexOf(',');
-    checkFormat: {
-      if (index1 >= 1) {
-        minVersionString = TextUtils.prepare(line.substring(1, index1));
-        ++index1;
-        index2 = line.indexOf(']', index1);
-        if (index2 >= index1) {
-          maxVersionString = TextUtils
-              .prepare(line.substring(index1, index2));
-          ++index2;
-          if (index2 < line.length()) {
-            path = TextUtils.prepare(line.substring(index2));
-            if (path != null) {
-              break checkFormat;
-            }
-          }
-        }
-      }
-      throw new IllegalArgumentException((("Invalid format: '" + //$NON-NLS-1$
-          line) + '\'') + '.');
+    path = this._getVersionResource(line);
+    if (path == null) {
+      return false;
     }
 
     logger = this.getLogger();
-    if (this.m_version != null) {
-      if (minVersionString != null) {
-        version = Version.parseVersion(minVersionString);
-        if (this.m_version.compareTo(version) < 0) {
-          if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-            logger.fine((("Skipping '" + line + //$NON-NLS-1$
-                "', as its minimum required version '"//$NON-NLS-1$
-                + version
-                + "' is bigger than the current software version '" + //$NON-NLS-1$
-                this.m_version) + '\'') + '.');
-          }
-          return false;
-        }
-      }
-
-      if (maxVersionString != null) {
-        version = Version.parseVersion(maxVersionString);
-        if (this.m_version.compareTo(version) > 0) {
-          if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-            logger.fine((("Skipping '" + line + //$NON-NLS-1$
-                "', as its maximum permitted version '"//$NON-NLS-1$
-                + version
-                + "' is smaller than the current software version '" + //$NON-NLS-1$
-                this.m_version) + '\'') + '.');
-          }
-          return false;
-        }
-      }
-    }
-
     url = baseUri.resolve(path).toURL();
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
       logger.fine((("Now downloading resource '" + url) + //$NON-NLS-1$
@@ -246,16 +183,16 @@ final class _ExampleDownloadJob extends ToolJob
       Files.createDirectories(destFolder);
     }
 
-    index1 = path.length();
-    zip = ((index1 >= 4) && //
-        (((ch = path.charAt(--index1)) == 'p') || (ch == 'P')) && //
-        (((ch = path.charAt(--index1)) == 'i') || (ch == 'I')) && //
-        (((ch = path.charAt(--index1)) == 'z') || (ch == 'Z')) && //
-        ((ch = path.charAt(--index1)) == '.'));
+    index = path.length();
+    zip = ((index >= 4) && //
+        (((ch = path.charAt(--index)) == 'p') || (ch == 'P')) && //
+        (((ch = path.charAt(--index)) == 'i') || (ch == 'I')) && //
+        (((ch = path.charAt(--index)) == 'z') || (ch == 'Z')) && //
+        ((ch = path.charAt(--index)) == '.'));
 
-    index1 = path.lastIndexOf('/');
-    if (index1 > 0) {
-      path = path.substring(index1 + 1);
+    index = path.lastIndexOf('/');
+    if (index > 0) {
+      path = path.substring(index + 1);
     }
     if (zip) {
       destPath = destFolder;

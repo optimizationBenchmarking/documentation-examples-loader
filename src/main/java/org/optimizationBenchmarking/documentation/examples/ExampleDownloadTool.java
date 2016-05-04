@@ -2,7 +2,7 @@ package org.optimizationBenchmarking.documentation.examples;
 
 import org.optimizationBenchmarking.utils.tools.impl.abstr.Tool;
 
-/** The example doanlod tool. */
+/** The example download tool. */
 public final class ExampleDownloadTool extends Tool {
 
   /** create */

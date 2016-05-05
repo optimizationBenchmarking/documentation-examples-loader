@@ -216,8 +216,8 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
     }
 
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Finished downloading resource '" + url) + //$NON-NLS-1$
-          +'\'') + '.');
+      logger.fine((("Finished downloading resource '" + url) //$NON-NLS-1$
+          + '\'') + '.');
     }
 
     return true;

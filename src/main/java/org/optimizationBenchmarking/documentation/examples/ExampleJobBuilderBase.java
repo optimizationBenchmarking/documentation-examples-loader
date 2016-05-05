@@ -24,7 +24,7 @@ public abstract class ExampleJobBuilderBase<T, JT extends _ExampleJobBase<T>, JB
     extends ConfigurableToolJobBuilder<ICallableToolJob<T>, JBT> {
 
   /** the base URI */
-  public static final String DEFAULT_BASE_URI = "https://raw.githubusercontent.com/optimizationBenchmarking/documentation-examples/master/"; //$NON-NLS-1$
+  public static final String DEFAULT_BASE_URI = "http://optimizationBenchmarking.github.io/documentation-examples/"; //$NON-NLS-1$
 
   /** the parameter for the base uri of the example repository */
   public static final String PARAM_BASE_URI = "baseUri"; //$NON-NLS-1$

@@ -175,8 +175,8 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
     logger = this.getLogger();
     url = baseUri.resolve(path).toURL();
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Now downloading resource '" + url) + //$NON-NLS-1$
-          +'\'') + '.');
+      logger.fine((("Now downloading resource '" + url) //$NON-NLS-1$
+          + '\'') + '.');
     }
 
     if (!(found)) {
@@ -201,7 +201,7 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
     }
 
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Finished downloading resource '" + url + //$NON-NLS-1$
+      logger.fine((("Beginning to download resource '" + url + //$NON-NLS-1$
           (zip ? "' as zip archive into folder '"//$NON-NLS-1$
               : "' as file into file '")//$NON-NLS-1$
           + destPath) + '\'') + '.');

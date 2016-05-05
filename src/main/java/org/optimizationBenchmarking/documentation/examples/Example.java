@@ -36,6 +36,9 @@ public final class Example extends Textable {
   public Example(final URI baseUri, final String id, final String name,
       final String description) {
     super();
+    final String p;
+    String desc;
+
     this.m_baseUri = ExampleJobBuilderBase._checkBaseUri(baseUri);
     this.m_id = ExampleDownloadJobBuilder._checkExampleId(id);
 
@@ -47,13 +50,20 @@ public final class Example extends Textable {
           this.m_baseUri) + '\'') + '.');
     }
 
-    if ((this.m_description = TextUtils.prepare(description)) == null) {
+    if ((desc = TextUtils.prepare(description)) == null) {
       throw new IllegalArgumentException(((((((//
       "Example description cannot be null, empty, or just consist of white spaces, but '" //$NON-NLS-1$
           + description) + "' is/does (for example '") + //$NON-NLS-1$
           this.m_id) + "' in repository '") + //$NON-NLS-1$
           this.m_baseUri) + '\'') + '.');
     }
+
+    p = "<p>"; //$NON-NLS-1$
+    if (!desc.startsWith(p)) {
+      desc = (p + desc + "</p>"); //$NON-NLS-1$
+    }
+
+    this.m_description = desc;
   }
 
   /**

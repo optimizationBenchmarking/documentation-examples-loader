@@ -6,7 +6,7 @@
 	<artifactId>documentation-examples-loader</artifactId>
 	<version>0.8.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Graphics Utilities</name>
+	<name>Examples Downloader</name>
 	<description>This project holds utilities for downloading example datasets of the Optimization Benchmarking Tool Suite.</description>
 
 	<parent>

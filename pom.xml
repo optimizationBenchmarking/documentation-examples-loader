@@ -4,7 +4,7 @@
 
 	<groupId>org.optimizationBenchmarking</groupId>
 	<artifactId>documentation-examples-loader</artifactId>
-	<version>0.8.5-SNAPSHOT</version>
+	<version>0.8.5</version>
 	<packaging>jar</packaging>
 	<name>Examples Downloader</name>
 	<description>This project holds utilities for downloading example datasets of the Optimization Benchmarking Tool Suite.</description>

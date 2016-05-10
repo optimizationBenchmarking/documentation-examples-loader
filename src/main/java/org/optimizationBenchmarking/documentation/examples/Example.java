@@ -85,6 +85,16 @@ public final class Example extends Textable {
   }
 
   /**
+   * Get the URI where we can obtain further information about the example
+   *
+   * @return the info uri
+   */
+  public final URI getInfoUri() {
+    return _ExampleDownloadJob._resolveExampleURI(this.m_baseUri,
+        this.m_id);
+  }
+
+  /**
    * Get the example's name
    *
    * @return the example's name

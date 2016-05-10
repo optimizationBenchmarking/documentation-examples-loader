@@ -46,6 +46,20 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
         ._checkDestinationPath(builder.m_dest);
   }
 
+  /**
+   * Get the uri of an example
+   *
+   * @param baseUri
+   *          the base URI
+   * @param id
+   *          the example id
+   * @return the resolved uri
+   */
+  static final URI _resolveExampleURI(final URI baseUri, final String id) {
+    return baseUri.resolve(//
+        _ExampleDownloadJob.DATA_FOLDER + id + '/').normalize();
+  }
+
   /** {@inheritDoc} */
   @Override
   public final Path call() throws Exception {
@@ -75,8 +89,8 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
     }
 
     destDirectory = PathUtils.createPathInside(this.m_dest, this.m_id);
-    exampleUri = this.m_baseUri
-        .resolve(_ExampleDownloadJob.DATA_FOLDER + this.m_id + '/');
+    exampleUri = _ExampleDownloadJob._resolveExampleURI(this.m_baseUri,
+        this.m_id);
     if ((logger != null) && (logger.isLoggable(Level.FINER))) {
       logger.finer((("The URI of the example is '" + //$NON-NLS-1$
           exampleUri) + '\'') + '.');

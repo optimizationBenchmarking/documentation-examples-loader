@@ -292,14 +292,14 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-
+							<finalName>examples-loader</finalName>
+							<shadedArtifactId>examples-loader</shadedArtifactId>
+							<shadedClassifierName />
 							<createSourcesJar>true</createSourcesJar>
 							<shadeTestJar>true</shadeTestJar>
 							<minimizeJar>false</minimizeJar>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
-
-							<shadedClassifierName>full</shadedClassifierName>
 
 							<filters>
 								<filter>
@@ -311,7 +311,6 @@
 									</excludes>
 								</filter>
 							</filters>
-
 
 							<transformers>
 								<transformer

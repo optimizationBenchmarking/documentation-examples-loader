@@ -3,7 +3,7 @@
 ##
 ## https://app.wercker.com/#applications/572469167ed0b05537068c61
 #
-box: optimizationbenchmarking/linux-evaluator-build
+box: optimizationbenchmarking/evaluator-build
 #
 build:
     steps:

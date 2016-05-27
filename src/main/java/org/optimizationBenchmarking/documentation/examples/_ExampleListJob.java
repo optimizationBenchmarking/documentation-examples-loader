@@ -1,6 +1,7 @@
 package org.optimizationBenchmarking.documentation.examples;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -32,7 +33,7 @@ final class _ExampleListJob
 
   /** {@inheritDoc} */
   @Override
-  public final ArrayListView<Example> call() throws Exception {
+  public final ArrayListView<Example> call() throws IOException {
     final Logger logger;
     final ArrayListView<Example> result;
     String name;

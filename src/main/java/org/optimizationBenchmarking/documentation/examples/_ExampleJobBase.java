@@ -1,5 +1,6 @@
 package org.optimizationBenchmarking.documentation.examples;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +45,16 @@ abstract class _ExampleJobBase<T> extends ToolJob
     ExampleJobBuilderBase
         ._checkFailureLevel(this.m_failureLevel = builder.m_failureLevel);
   }
+
+  /**
+   * Perform the example job.
+   *
+   * @return the result object
+   * @throws IOException
+   *           if I/O fails
+   */
+  @Override
+  public abstract T call() throws IOException;
 
   /**
    * Extract the resource part from a given line and return it if the

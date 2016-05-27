@@ -1,6 +1,7 @@
 package org.optimizationBenchmarking.documentation.examples;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -62,7 +63,7 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
 
   /** {@inheritDoc} */
   @Override
-  public final Path call() throws Exception {
+  public final Path call() throws IOException {
     final URI exampleUri;
     final Path destDirectory;
     final Logger logger;
@@ -168,16 +169,16 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
    * @param found
    *          did we already create something?
    * @return {@code true} if a file was unpacked, {@code false} otherwise
-   * @throws Exception
+   * @throws IOException
    *           if something goes wrong
    */
   private final boolean __process(final String line, final URI baseUri,
-      final Path destFolder, final boolean found) throws Exception {
+      final Path destFolder, final boolean found) throws IOException {
     final Logger logger;
     final URL url;
     final Path destPath;
     final boolean zip;
-    String path;
+    String path, message;
     int index;
     char ch;
 
@@ -188,9 +189,10 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
 
     logger = this.getLogger();
     url = baseUri.resolve(path).toURL();
+    message = null;
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Now downloading resource '" + url) //$NON-NLS-1$
-          + '\'') + '.');
+      message = (("resource '" + url) + '\'');//$NON-NLS-1$
+      logger.fine(("Now downloading " + message) + '.');//$NON-NLS-1$
     }
 
     if (!(found)) {
@@ -215,10 +217,14 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
     }
 
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Beginning to download resource '" + url + //$NON-NLS-1$
-          (zip ? "' as zip archive into folder '"//$NON-NLS-1$
-              : "' as file into file '")//$NON-NLS-1$
-          + destPath) + '\'') + '.');
+      if (message == null) {
+        message = (("resource '" + url) + '\'');//$NON-NLS-1$
+      }
+      message = (((message + (zip//
+          ? " as zip archive into folder '"//$NON-NLS-1$
+          : " as file into file '"))//$NON-NLS-1$
+          + destPath) + '\'');
+      logger.fine("Beginning to download " + message + '.');//$NON-NLS-1$
     }
 
     try (final InputStream input = url.openStream()) {
@@ -227,11 +233,25 @@ final class _ExampleDownloadJob extends _ExampleJobBase<Path> {
       } else {
         Files.copy(input, destPath);
       }
+    } catch (final Throwable error) {
+      if (message == null) {
+        message = (((("resource '" + url) //$NON-NLS-1$
+            + (zip ? "' as zip archive into folder '"//$NON-NLS-1$
+                : "' as file into file '"))//$NON-NLS-1$
+            + destPath) + '\'');
+      }
+      throw new IOException((("Error while downloading " //$NON-NLS-1$
+          + message) + '.'), error);
     }
 
     if ((logger != null) && (logger.isLoggable(Level.FINE))) {
-      logger.fine((("Finished downloading resource '" + url) //$NON-NLS-1$
-          + '\'') + '.');
+      if (message == null) {
+        message = (((("resource '" + url) //$NON-NLS-1$
+            + (zip ? "' as zip archive into folder '"//$NON-NLS-1$
+                : "' as file into file '"))//$NON-NLS-1$
+            + destPath) + '\'');
+      }
+      logger.fine(("Finished downloading " + message) + '.');//$NON-NLS-1$
     }
 
     return true;

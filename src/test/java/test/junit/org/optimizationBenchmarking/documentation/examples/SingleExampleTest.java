@@ -330,7 +330,7 @@ public abstract class SingleExampleTest
     System.out.println();
     System.out.println();
 
-    System.out.print("--- Parameter-values ---"); //$NON-NLS-1$
+    System.out.println("--- Parameter-values ---"); //$NON-NLS-1$
     for (final IParameter item : data.getParameters().getData()) {
       System.out.print(item.getName());
       System.out.print(' ');
@@ -351,7 +351,7 @@ public abstract class SingleExampleTest
     System.out.println();
     System.out.println();
 
-    System.out.print("--- Feature-values ---"); //$NON-NLS-1$
+    System.out.println("--- Feature-values ---"); //$NON-NLS-1$
     for (final IFeature item : data.getFeatures().getData()) {
       System.out.print(item.getName());
       System.out.print(' ');

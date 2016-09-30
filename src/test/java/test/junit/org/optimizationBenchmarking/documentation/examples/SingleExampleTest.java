@@ -76,11 +76,10 @@ public abstract class SingleExampleTest
 
     builder = ExampleDownloadTool.getInstance().use();
     this.setup(builder);
-    builder.setLogger(TestBase.getNullLogger());
-    builder.setVersion(new Version(major, minor, build, null, null));
-
-    builder.setDestinationPath(path);
-    ret = builder.create().call();
+    ret = builder.setLogger(TestBase.getNullLogger())//
+        .setVersion(new Version(major, minor, build, null, null))//
+        .setDestinationPath(path)//
+        .create().call();
     Assert.assertNotNull(ret);
     return ret;
   }
@@ -220,8 +219,10 @@ public abstract class SingleExampleTest
       Assert.assertNotNull(visitor.m_config);
 
       try (ConfigurationBuilder cfb = new ConfigurationBuilder()) {
-        ConfigurationXMLInput.getInstance().use().setBasePath(dir)
-            .setDestination(cfb).addPath(visitor.m_config).create().call();
+        ConfigurationXMLInput.getInstance().use().setBasePath(dir)//
+            .setLogger(TestBase.getNullLogger())//
+            .setDestination(cfb).addPath(visitor.m_config)//
+            .create().call();
         config = cfb.getResult();
       }
       Assert.assertNotNull(config);
@@ -232,7 +233,8 @@ public abstract class SingleExampleTest
 
       try (
           final ExperimentSetContext context = new ExperimentSetContext()) {
-        input.use().configure(config).setBasePath(dir)
+        input.use().configure(config).setBasePath(dir)//
+            .setLogger(TestBase.getNullLogger())//
             .setDestination(context).create().call();
         data = context.create();
       }

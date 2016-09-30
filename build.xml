@@ -15,6 +15,7 @@
 			<buildWithDependencies githubProject="documentation-examples-loader">
 				<dependencies>
 					<dependency githubProject="utils-base" />
+					<dependency githubProject="evaluator-base" />
 				</dependencies>
 			</buildWithDependencies>
 		</sequential>

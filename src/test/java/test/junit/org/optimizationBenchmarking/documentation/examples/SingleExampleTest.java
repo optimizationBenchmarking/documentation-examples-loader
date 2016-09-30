@@ -21,8 +21,10 @@ import org.optimizationBenchmarking.evaluator.data.spec.IExperimentSet;
 import org.optimizationBenchmarking.evaluator.data.spec.IFeature;
 import org.optimizationBenchmarking.evaluator.data.spec.IFeatureValue;
 import org.optimizationBenchmarking.evaluator.data.spec.IInstance;
+import org.optimizationBenchmarking.evaluator.data.spec.IInstanceRuns;
 import org.optimizationBenchmarking.evaluator.data.spec.IParameter;
 import org.optimizationBenchmarking.evaluator.data.spec.IParameterValue;
+import org.optimizationBenchmarking.evaluator.data.spec.IRun;
 import org.optimizationBenchmarking.evaluator.io.impl.ExperimentSetInputParser;
 import org.optimizationBenchmarking.evaluator.io.spec.IExperimentSetInput;
 import org.optimizationBenchmarking.utils.config.Configuration;
@@ -104,6 +106,7 @@ public abstract class SingleExampleTest
    *           if I/O fails
    */
   @Test(timeout = 3600000)
+  @Category(CategorySlowTests.class)
   public void testExampleDownload_0_8_6() throws Exception {
     try (final TempDir temp = new TempDir()) {
       this.__load(0, 8, 6, temp.getPath());
@@ -117,6 +120,7 @@ public abstract class SingleExampleTest
    *           if I/O fails
    */
   @Test(timeout = 3600000)
+  @Category(CategorySlowTests.class)
   public void testExampleDownload_0_8_7() throws Exception {
     try (final TempDir temp = new TempDir()) {
       this.__load(0, 8, 7, temp.getPath());
@@ -329,6 +333,10 @@ public abstract class SingleExampleTest
     System.out.print("--- Parameter-values ---"); //$NON-NLS-1$
     for (final IParameter item : data.getParameters().getData()) {
       System.out.print(item.getName());
+      System.out.print(' ');
+      System.out.print('(');
+      System.out.print(item.getData().size());
+      System.out.print(')');
 
       ch = ':';
       for (final IParameterValue value : item.getData()) {
@@ -346,6 +354,10 @@ public abstract class SingleExampleTest
     System.out.print("--- Feature-values ---"); //$NON-NLS-1$
     for (final IFeature item : data.getFeatures().getData()) {
       System.out.print(item.getName());
+      System.out.print(' ');
+      System.out.print('(');
+      System.out.print(item.getData().size());
+      System.out.print(')');
 
       ch = ':';
       for (final IFeatureValue value : item.getData()) {
@@ -356,6 +368,45 @@ public abstract class SingleExampleTest
       }
       System.out.println();
     }
+
+    System.out.println();
+    System.out.println();
+    System.out.println();
+
+    System.out.println("--- runs ---"); //$NON-NLS-1$
+    long totalRuns, totalDataPoints, totalInstanceRuns, instanceRuns,
+        dataPoints, runs;
+
+    totalRuns = totalDataPoints = totalInstanceRuns = instanceRuns = dataPoints = runs = 0L;
+    for (final IExperiment item : data.getData()) {
+      System.out.print(item.getName());
+      System.out.print(':');
+      System.out.print(' ');
+      instanceRuns = item.getData().size();
+      System.out.print(instanceRuns);
+      System.out.print(" instances, "); //$NON-NLS-1$
+      dataPoints = runs = 0L;
+      for (final IInstanceRuns xruns : item.getData()) {
+        runs += xruns.getData().size();
+        for (final IRun run : xruns.getData()) {
+          dataPoints += run.m();
+        }
+      }
+      System.out.print(runs);
+      System.out.print(" runs, "); //$NON-NLS-1$
+      System.out.print(dataPoints);
+      System.out.println(" points"); //$NON-NLS-1$
+      totalRuns += runs;
+      totalInstanceRuns += instanceRuns;
+      totalDataPoints += dataPoints;
+    }
+    System.out.print("total: "); //$NON-NLS-1$
+    System.out.print(totalInstanceRuns);
+    System.out.print(" instances, "); //$NON-NLS-1$
+    System.out.print(totalRuns);
+    System.out.print(" runs, "); //$NON-NLS-1$
+    System.out.print(totalDataPoints);
+    System.out.print(" points"); //$NON-NLS-1$
   }
 
   /** the visitor */

@@ -45,6 +45,7 @@
 		<junit.version>4.11</junit.version>
 		<project.mainClass>org.optimizationBenchmarking.documentation.examples.Main</project.mainClass>
 		<utils-base.version>${project.version}</utils-base.version>
+		<evaluator-base.version>${project.version}</evaluator-base.version>
 	</properties>
 
 	<licenses>
@@ -89,6 +90,22 @@
 			<artifactId>utils-base</artifactId>
 			<version>${utils-base.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.optimizationBenchmarking</groupId>
+			<artifactId>evaluator-base</artifactId>
+			<version>${evaluator-base.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+    <dependency>
+      <groupId>org.optimizationBenchmarking</groupId>
+      <artifactId>evaluator-base</artifactId>
+      <version>${evaluator-base.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
 	</dependencies>
 
 	<build>

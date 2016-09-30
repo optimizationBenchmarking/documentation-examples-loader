@@ -9,17 +9,17 @@ import shared.junit.CategorySlowTests;
  * The test of downloading and installing the BBOB example
  */
 @Category(CategorySlowTests.class)
-public final class BBOBExampleTest extends SingleExampleTest {
+public final class TSPSuiteExampleTest extends SingleExampleTest {
 
   /** create */
-  public BBOBExampleTest() {
+  public TSPSuiteExampleTest() {
     super();
   }
 
   /** {@inheritDoc} */
   @Override
   protected final void setup(final ExampleDownloadJobBuilder builder) {
-    builder.setExampleId("bbob"); //$NON-NLS-1$
+    builder.setExampleId("tspSuite"); //$NON-NLS-1$
   }
 
   /**
@@ -30,7 +30,7 @@ public final class BBOBExampleTest extends SingleExampleTest {
    * @throws Throwable
    *           if something goes wrong
    */
-  public static final void main(final String[] args) throws Throwable {
-    new BBOBExampleTest().printInfos();
+  public static void main(final String[] args) throws Throwable {
+    new TSPSuiteExampleTest().printInfos();
   }
 }

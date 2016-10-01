@@ -46,6 +46,7 @@
 		<project.mainClass>org.optimizationBenchmarking.documentation.examples.Main</project.mainClass>
 		<utils-base.version>${project.version}</utils-base.version>
 		<evaluator-base.version>${project.version}</evaluator-base.version>
+		<evaluator-attributes.version>${evaluator-base.version}</evaluator-attributes.version>
 	</properties>
 
 	<licenses>
@@ -103,6 +104,24 @@
       <groupId>org.optimizationBenchmarking</groupId>
       <artifactId>evaluator-base</artifactId>
       <version>${evaluator-base.version}</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+    
+    
+
+    <dependency>
+      <groupId>org.optimizationBenchmarking</groupId>
+      <artifactId>evaluator-attributes</artifactId>
+      <version>${evaluator-attributes.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.optimizationBenchmarking</groupId>
+      <artifactId>evaluator-attributes</artifactId>
+      <version>${evaluator-attributes.version}</version>
       <type>jar</type>
       <scope>test</scope>
     </dependency>

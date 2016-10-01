@@ -16,6 +16,7 @@
 				<dependencies>
 					<dependency githubProject="utils-base" />
 					<dependency githubProject="evaluator-base" />
+					<dependency githubProject="evaluator-attributes" />
 				</dependencies>
 			</buildWithDependencies>
 		</sequential>

@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.optimizationBenchmarking.documentation.examples.ExampleDownloadJobBuilder;
 import org.optimizationBenchmarking.documentation.examples.ExampleDownloadTool;
+import org.optimizationBenchmarking.evaluator.attributes.OnlySharedInstances;
 import org.optimizationBenchmarking.evaluator.data.impl.ref.ExperimentSetContext;
 import org.optimizationBenchmarking.evaluator.data.spec.IDimension;
 import org.optimizationBenchmarking.evaluator.data.spec.IExperiment;
@@ -257,8 +258,39 @@ public abstract class SingleExampleTest
    */
   public final void printInfos() throws Exception {
     final IExperimentSet data;
-    char ch;
+
     data = this.call();
+
+    System.out.println(
+        "--------------------------------------------------------"); //$NON-NLS-1$
+    System.out.println(
+        "----------------------- RAW Data -----------------------"); //$NON-NLS-1$
+    System.out.println(
+        "--------------------------------------------------------"); //$NON-NLS-1$
+    SingleExampleTest.__printInfos(data);
+
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println(
+        "---------------------------------------------------------------------"); //$NON-NLS-1$
+    System.out.println(
+        "----------------------- Shared Instances Only -----------------------"); //$NON-NLS-1$
+    System.out.println(
+        "----------------------------------------------------------------------"); //$NON-NLS-1$
+    SingleExampleTest.__printInfos(
+        OnlySharedInstances.INSTANCE.get(data, TestBase.getNullLogger()));
+  }
+
+  /**
+   * Print the infos
+   *
+   * @param data
+   *          the experiment set
+   */
+  private static final void __printInfos(final IExperimentSet data) {
+    char ch;
 
     System.out.print("Experiments: "); //$NON-NLS-1$
     System.out.println(data.getData().size());

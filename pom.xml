@@ -107,16 +107,6 @@
       <type>jar</type>
       <scope>test</scope>
     </dependency>
-    
-    
-
-    <dependency>
-      <groupId>org.optimizationBenchmarking</groupId>
-      <artifactId>evaluator-attributes</artifactId>
-      <version>${evaluator-attributes.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.optimizationBenchmarking</groupId>

@@ -4,7 +4,7 @@
 
 	<groupId>org.optimizationBenchmarking</groupId>
 	<artifactId>documentation-examples-loader</artifactId>
-	<version>0.8.8</version>
+	<version>0.8.9</version>
 	<packaging>jar</packaging>
 	<name>Examples Downloader</name>
 	<description>This project holds utilities for downloading example datasets of the Optimization Benchmarking Tool Suite.</description>
@@ -25,10 +25,10 @@
 		<developer>
 			<id>thomasWeise</id>
 			<name>Thomas Weise</name>
-			<email>tweise@ustc.edu.cn</email>
-			<url>http://www.it-weise.de/</url>
-			<organization>University of Science and Technology of China (USTC)</organization>
-			<organizationUrl>http://www.ustc.edu.cn/</organizationUrl>
+			<email>tweise@hfuu.edu.cn</email>
+			<url>http://iao.hfuu.edu.cn/index.php/team/director</url>
+			<organization>Institute of Applied Optimization (IAO), Hefei University</organization>
+			<organizationUrl>http://iao.hfuu.edu.cn/</organizationUrl>
 			<roles>
 				<role>architect</role>
 				<role>developer</role>
@@ -44,9 +44,9 @@
 		<jdk.version>1.7</jdk.version>
 		<junit.version>4.11</junit.version>
 		<project.mainClass>org.optimizationBenchmarking.documentation.examples.Main</project.mainClass>
-		<utils-base.version>${project.version}</utils-base.version>
-		<evaluator-base.version>${project.version}</evaluator-base.version>
-		<evaluator-attributes.version>${evaluator-base.version}</evaluator-attributes.version>
+		<utils-base.version>0.8.8</utils-base.version>
+		<evaluator-base.version>0.8.8</evaluator-base.version>
+		<evaluator-attributes.version>0.8.8</evaluator-attributes.version>
 	</properties>
 
 	<licenses>
